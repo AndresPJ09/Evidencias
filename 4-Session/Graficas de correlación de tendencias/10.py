@@ -1,57 +1,58 @@
+import pandas as pd
 import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
-from scipy.stats import pearsonr
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 
-# Datos en formato de lista
-data_solutions = [
-    ['Automatización del Marketing', 16],
-    ['Herramientas de análisis para Big Data y sistemas predictivos', 22],
-    ['Formación de los empleados', 51],
-    ['Cloud', 64],
-    ['Ciberseguridad', 66],
-    ['Database', 70],
-    ['Equipamiento e infraestructura', 81]
-]
+# Crear el dataframe con los datos proporcionados
+data = {
+    "Rank": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "DBMS": ["Oracle", "MySQL", "Microsoft SQL Server", "PostgreSQL", "MongoDB", "Redis", "Snowflake", "Elasticsearch", "IBM Db2", "SQLite"],
+    "Database Model": ["Relational", "Relational", "Relational", "Relational", "Document", "Key-value", "Relational", "Search engine", "Relational", "Relational"],
+    "Score Sep 2024": [1286.59, 1029.49, 807.76, 644.36, 410.24, 149.43, 133.72, 128.79, 123.05, 103.35],
+    "Aug 2024": [28.11, 2.63, -7.41, 6.97, -10.74, -3.28, -2.25, -1.04, 0.04, -1.44],
+    "Sep 2023": [45.72, -82.00, -94.45, 23.61, -29.18, -14.26, 12.83, -10.20, -13.67, -25.85]
+}
 
-# Convertir datos a un array de numpy
-data_array_solutions = np.array(data_solutions)
+df = pd.DataFrame(data)
 
-# Extraer columnas relevantes
-solutions = data_array_solutions[:, 0]  # Soluciones
-percentages_solutions = data_array_solutions[:, 1].astype(float)  # Porcentajes
+# Correlación entre las columnas numéricas
+correlation_matrix = df[["Score Sep 2024", "Aug 2024", "Sep 2023"]].corr()
 
-# Hipótesis
-# Hipótesis nula (H₀): No existe correlación entre las soluciones tecnológicas (porcentaje no correlacionado).
-# Hipótesis alternativa (H₁): Existe correlación entre los porcentajes de adopción de las soluciones.
-
-# Realizar el análisis de correlación (en este caso, calculamos el coeficiente de correlación entre los porcentajes)
-# En este caso, dado que tenemos solo un conjunto de datos de porcentajes, simularemos una relación con un nuevo conjunto de datos.
-# Por ejemplo, podríamos comparar el porcentaje con un conjunto hipotético relacionado con otro factor (ej. inversión en tecnología).
-investments = np.array([15, 20, 50, 60, 65, 72, 80])  # Inversión simulada en tecnología
-
-# Calcular el coeficiente de correlación de Pearson entre los porcentajes y la inversión
-corr_coefficient, _ = pearsonr(percentages_solutions, investments)
-
-# Mostrar el resultado del coeficiente de correlación
-print(f"Coeficiente de correlación de Pearson: {corr_coefficient:.2f}")
-
-# Crear un gráfico de dispersión (scatter plot) para mostrar la correlación
-plt.figure(figsize=(10, 6))
-plt.scatter(percentages_solutions, investments, color='b', label='Datos', edgecolors='black')
-
-# Añadir una línea de tendencia (regresión lineal)
-m, b = np.polyfit(percentages_solutions, investments, 1)
-plt.plot(percentages_solutions, m*percentages_solutions + b, color='r', label='Línea de tendencia')
-
-# Añadir título y etiquetas
-plt.title('Correlación entre el Porcentaje de Soluciones y la Inversión en Tecnología', fontsize=16, fontweight='bold')
-plt.xlabel('Porcentaje de Soluciones (%)', fontsize=12)
-plt.ylabel('Inversión en Tecnología ($)', fontsize=12)
-plt.legend()
-
-# Mostrar la cuadrícula
-plt.grid(True)
-
-# Mostrar el gráfico
-plt.tight_layout()
+# Visualización de la matriz de correlación
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title("Matriz de Correlación")
 plt.show()
+
+# Definir X y y para aplicar la regresión lineal
+X = df[["Aug 2024", "Sep 2023"]]  # Variables predictoras
+y = df["Score Sep 2024"]  # Variable dependiente
+
+# Crear el modelo de regresión lineal
+model = LinearRegression()
+model.fit(X, y)
+
+# Realizar las predicciones
+y_pred = model.predict(X)
+
+# Evaluar el modelo
+mse = mean_squared_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+
+# Visualizar los resultados de la regresión
+plt.figure(figsize=(8, 6))
+plt.scatter(y, y_pred, color='blue', label='Datos reales vs Predicciones')
+plt.plot([min(y), max(y)], [min(y), max(y)], color='red', linestyle='--', label='Linea de ajuste')
+plt.xlabel("Valores reales (Score Sep 2024)")
+plt.ylabel("Predicciones")
+plt.title("Regresión Lineal: Score Sep 2024 vs Aug 2024 & Sep 2023")
+plt.legend()
+plt.show()
+
+# Mostrar los coeficientes del modelo y el desempeño
+coef = model.coef_
+intercept = model.intercept_
+
+coef, intercept, mse, r2
