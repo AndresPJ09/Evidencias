@@ -1,0 +1,11 @@
+﻿Número;Término o Frase (Español);Término en Inglés;Fecha de Inicio;Fecha de Pico;Tasa de Crecimiento Anual (Estimada);Url;Fuentes Principales;Tipo de Tendencia
+1;Ascenso de los Frameworks PHP;Rise of PHP Frameworks;2004 (Laravel), 2005 (Symfony);2012;30%;https://packagist.org/;Frameworks de Desarrollo Web;Lenguaje y Framework
+2;Popularización de Ruby on Rails;Ruby on Rails popularity;2004;2012;25%;https://rubyonrails.org/;Framework Web;Lenguaje
+3;Dominio de Java en el desarrollo empresarial;Java dominance in enterprise development;1995;2012;20%;https://www.oracle.com/java/;Lenguaje de Programación;Desarrollo de Aplicaciones
+4;Crecimiento de PHP para desarrollo web;PHP growth for web development;1995;2012;35%;https://www.php.net/;Lenguaje de Programación;Arquitectura de Software
+5;Adopción de .NET Framework;Adoption of .NET Framework;2002;2010;28%;https://dotnet.microsoft.com/;Framework;Arquitectura de Software
+6;Emergencia de los frameworks JavaScript (jQuery);Emergence of JavaScript frameworks (jQuery);2006;2012;30%;https://jquery.com/;Biblioteca JavaScript;Infraestructura
+7;Virtualización de servidores;Server virtualization;2000;2010;25%;https://en.wikipedia.org/wiki/Virtualization;Infraestructura;Tecnología
+8;Desarrollo de aplicaciones móviles nativas (iOS, Android);Native mobile app development (iOS, Android);2008;2012;40%;https://developer.apple.com/, https://developer.android.com/;Desarrollo Móvil;Metodología de Desarrollo
+9;Big Data y Hadoop;Big Data and Hadoop;2006;2012;40%;https://hadoop.apache.org/;Tecnología de Datos;Seguridad
+10;Desarrollo ágil (Scrum, Kanban);Agile development (Scrum, Kanban);2001;2012;30%;https://www.scrum.org/, https://kanbanize.com/;Metodología de Desarrollo;Tecnología
